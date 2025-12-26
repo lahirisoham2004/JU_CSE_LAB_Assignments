@@ -1,0 +1,11 @@
+Minghui Yao, Dongzhou Cheng, Lei Zhang, LiangDong Liu, Shuangteng Song, Hao Wu, Aiguo Song,
+A sparse diverse-branch large kernel convolutional neural network for human activity recognition using wearables,
+Applied Soft Computing,
+Volume 167, Part C,
+2024,
+112444,
+ISSN 1568-4946,
+https://doi.org/10.1016/j.asoc.2024.112444.
+(https://www.sciencedirect.com/science/article/pii/S1568494624012183)
+Abstract: During the past decade, large convolutional kernels have long been under the shadow of small convolutional kernels since the introduction of VGG backbone network. It always remains mysterious whether one can design pure convolutional neural network (CNN) while plugging larger kernels to model long-range dependency for human activity recognition (HAR), which has been rarely explored in previous literatures. In this paper, we revive the usage of larger kernels in the context of HAR and attempt to eliminate the performance gap between large kernels and small kernels by strategically applying a large receptive field, without incurring high memory and computational footprints. Built on two recipes, i.e., Diverse-Branch and Dynamic Sparsity, we design a pure CNN architecture named SLK-Net for activity recognition, which is equipped with sparse diverse-branch larger kernels. To validate the effectiveness of our approach, we perform a series of extensive experiments on four public benchmarks including UCI-HAR, WISDM, UniMiB-SHAR and USC-HAD, which show that large kernels can benefit its ability to capture long-range dependency and consistently beat state-of-the-art small-kernel counterparts across a wide range of activity classification tasks. Real activity inference latency is measured on a mobile device, which reveals that such sparse diverse-branch kernels can lead to inference speedup than vanilla large kernels. We hope this work may further inspire relevant CNN-based studies in the HAR community.
+Keywords: Human activity recognition; Convolutional neural network; Large kernel; Diverse-branch; Dynamic sparsity
