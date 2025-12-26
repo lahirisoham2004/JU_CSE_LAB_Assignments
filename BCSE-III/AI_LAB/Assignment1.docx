@@ -1,0 +1,265 @@
+ARTIFICIAL INTELLIGENCE LAB
+
+REPORT ASSIGNMENT-1
+
+
+
+NAME: SOHAM LAHIRI
+
+CLASS: BCSE UG-III 6TH SEMESTER
+
+ROLL NO: 002210501107
+
+GROUP: A3
+
+SUBMISSION DATE: 04/03/2025
+
+
+
+
+
+
+INDEX
+
+Contents	Page No.
+	
+Breadth First Search	3
+Depth First Search	4
+Depth Limited Search	5
+Iterative Deepening Search	6
+Iterative Broadening Search	7
+Uniform Cost Search	8
+Best First Greedy	9
+A* search
+	10
+
+
+
+
+
+
+
+
+Problem Statement: 
+Implement Breadth First Search, Depth First Search, Depth Limited Search, Iterative Deepening Search, Iterative Broadening Search, Uniform Cost Search, Best First Greedy, A* search
+1. Breadth-First Search (BFS) : Explores neighbors first before going deeper.
+Code:
+from collections import deque
+def bfs(adj_matrix, start, goal):
+    num_nodes = len(adj_matrix)
+    visited = set()
+    queue = deque([(start, [start])])  # Maintain path in the queue
+
+    while queue:
+        node, path = queue.popleft()
+        if node == goal:
+            print("Final Visited nodes in BFS:", visited)
+            return path  # Goal found, return path
+        if node not in visited:
+            visited.add(node)
+            for neighbor, is_connected in enumerate(adj_matrix[node]):
+                #print(neighbor,is_connected)
+                if is_connected and neighbor not in visited:
+                    queue.append((neighbor, path + [neighbor]))  # Extend path
+
+    print("Visited nodes in BFS:", visited)
+    return None  # Goal not found
+
+Output:
+ 
+
+
+
+
+
+2. Depth-First Search (DFS): Explores deeper nodes before neighbors.
+Code:
+def dfs(adj_matrix, start, goal):
+    num_nodes = len(adj_matrix)
+    visited = set()
+    stack = [(start, [start])]  # Stack stores (node, path)
+
+    while stack:
+         node, path = stack.pop()
+        if node == goal:
+            print("Visited nodes in DFS:", visited)
+            return path  # Goal found, return path
+
+        if node not in visited:
+            visited.add(node)
+            # Add neighbors in reverse order (so lowest index is explored first)
+            for neighbor in range(num_nodes - 1, -1, -1):
+                if adj_matrix[node][neighbor] and neighbor not in visited:
+                    stack.append((neighbor, path + [neighbor]))  # Extend path
+
+    print("Visited nodes in DFS:", visited)
+    return None  # Goal not found
+
+Output:
+ 
+
+
+
+
+
+
+
+
+
+3. Depth Limited Search (DLS): DFS with depth limit
+Code:
+def dls(adj_matrix, start, goal, depth_limit):
+    num_nodes = len(adj_matrix)
+    visited = set()
+    stack = [(start, [start], 0)]  # Stack stores (node, path, depth)
+
+    while stack:
+        node, path, depth = stack.pop()
+        if node == goal:
+            print("Visited nodes in DLS:", visited)
+            return path  # Goal found, return path
+
+        if node not in visited:
+            visited.add(node)
+
+        # Continue search only if depth limit is not reached
+        if depth < depth_limit:
+            for neighbor in range(num_nodes - 1, -1, -1):
+                if adj_matrix[node][neighbor] and neighbor not in visited:
+                    stack.append((neighbor, path + [neighbor], depth + 1))  # Extend path
+
+    print("Visited nodes in DLS:", visited)
+    return None  # Goal not found within depth limit
+
+Output:
+ 
+
+
+
+
+
+
+
+4. Iterative Deepening Search (IDS): Combines depth-limited searches up to max depth.
+Code:
+def ids(adj_matrix, start, goal, max_depth):
+    for depth in range(max_depth + 1):
+        path = dls(adj_matrix, start, goal, depth)
+        if path:
+            return path
+    return None
+
+Output:
+ 
+
+
+
+
+
+
+
+
+5. Iterative Broadening Search (IBS): it incrementally increases the number of branches considered at each node
+Code:
+from collections import deque
+
+def ibfs(adj_matrix, start, goal, max_depth):
+    num_nodes = len(adj_matrix)
+
+    for depth in range(max_depth + 1):
+        visited = set()
+        queue = deque([(start, [start], 0)])  # (node, path, depth)
+
+        while queue:
+            node, path, depth_level = queue.popleft()
+            if node == goal:
+                print("Visited nodes in IBFS:", visited)
+                return path  # Goal found, return path
+
+            if node not in visited:
+                visited.add(node)
+
+            # Continue search only if within the depth limit
+            if depth_level < depth:
+                for neighbor, is_connected in enumerate(adj_matrix[node]):
+                    if is_connected and neighbor not in visited:
+                        queue.append((neighbor, path + [neighbor], depth_level + 1))  # Extend path
+    print("Goal not found within depth limit")
+    return None  # Goal not found within max depth
+
+Output:
+ 
+
+
+
+6. Uniform Cost Search (UCS): Explores lowest-cost path first.
+Code:
+import heapq
+def ucs(adj_matrix, start, goal):
+    pq = [(0, start, [start])]
+    visited = set()
+    while pq:
+        cost, node, path = heapq.heappop(pq)
+        if node == goal:
+            return path, cost
+        if node not in visited:
+            visited.add(node)
+            for neighbor, edge_cost in enumerate(adj_matrix[node]):
+                if edge_cost > 0 and neighbor not in visited:
+                    heapq.heappush(pq, (cost + edge_cost, neighbor, path + [neighbor]))
+    return None, float('inf')
+
+Output:
+ 
+
+
+
+
+
+
+
+7. Best-First Search (Greedy Search): Uses heuristic to explore most promising node first.
+Code:
+def best_first_search(adj_matrix, heuristic, start, goal):
+    pq = [(heuristic[start], start, [start])]
+    visited = set()
+    while pq:
+        _, node, path = heapq.heappop(pq)
+        if node == goal:
+            return path
+        if node not in visited:
+            visited.add(node)
+        for neighbor, is_connected in enumerate(adj_matrix[node]):
+            if is_connected and neighbor not in visited:
+                heapq.heappush(pq, (heuristic[neighbor], neighbor, path + [neighbor]))
+    return None
+
+Output:
+ 
+
+
+
+
+
+
+
+8. A* Search: Uses both cost (g) and heuristic (h) to find optimal path.
+Code:
+def a_star_search(adj_matrix, heuristic, start, goal):
+    pq = [(heuristic[start], 0, start, [start])]
+    visited = set()
+    while pq:
+        _, g, node, path = heapq.heappop(pq)
+        if node == goal:
+            return path
+        if node not in visited:
+            visited.add(node)
+        for neighbor, cost in enumerate(adj_matrix[node]):
+            if cost > 0 and neighbor not in visited:
+                new_g = g + cost
+                f = new_g + heuristic[neighbor]
+                heapq.heappush(pq, (f, new_g, neighbor, path + [neighbor]))
+    return None
+
+Output:
+ 
