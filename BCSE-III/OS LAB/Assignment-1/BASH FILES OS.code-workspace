@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "F:/C C++  Programming"
+		},
+		{
+			"path": "F:/C++ PROGRAMMING"
+		},
+		{
+			"path": "F:/JAVAPrograms"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"iostream": "cpp"
+		},
+		"java.debug.settings.onBuildFailureProceed": true
+	}
+}

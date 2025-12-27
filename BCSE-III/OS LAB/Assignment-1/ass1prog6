@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Check if a file name is provided as input
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 filename"
+    exit 1
+fi
+
+# Assign the input filename to a variable
+filename=$1
+
+# Check if the file exists and is readable
+if [ ! -f "$filename" ] || [ ! -r "$filename" ]; then
+    echo "File does not exist or cannot be read."
+    exit 1
+fi
+
+# Ask the user for a word to search
+read -p "Enter the word to search for: " search_word
+
+# Search for the word in the file and get the total number of occurrences
+total_occurrences=$(grep -o -w "$search_word" "$filename" | wc -l)
+
+# Check if the word was found in the file
+if [ $total_occurrences -eq 0 ]; then
+    echo "The word '$search_word' was not found in the file."
+    exit 1
+fi
+
+# Display the total number of occurrences of the word
+echo "The word '$search_word' occurs $total_occurrences time(s) in the file."
+
+# Display line numbers and the number of occurrences in each line
+echo "Occurrences by line:"
+grep -n -o -w "$search_word" "$filename" | awk -F: '{ count[$1]++; } END { for (line in count) print "Line " line ": " count[line] " occurrence(s)"; }'
+

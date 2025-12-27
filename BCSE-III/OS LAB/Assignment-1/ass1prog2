@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+read -p "Enter file name" file
+if [ -f "$file" ]
+then
+echo "It is a file"
+
+else
+echo "File not found"
+echo "Create text file " > "$file"
+fi
+
+count=$(wc -l < "$file")
+echo "Number of lines : $count"
+
+wcount=$(wc -w < "$file")
+echo "Numbers of words : $wcount"
+
+ccount=$(wc -c < "$file")
+echo "Number of charcters : $ccount"
+
+echo "File content"
+cat "$file"

@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <fcntl.h>
+
+int main(int argc, char* argv[]) {
+
+    int a[5];
+    int l;
+
+    int fd = open("/tmp/fifo3b", O_RDONLY);
+    if (fd == -1) {
+        perror("open failed");
+        exit(EXIT_FAILURE);
+    }
+        
+     for(int i = 0; i< 5; i++) {
+        read(fd, &a[i], sizeof(int));
+        printf("Received %d.\n", a[i]);
+    }
+    
+    printf("Closing receiver.\n");
+    close(fd);
+    return 0;
+}

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Function to reverse a string
+reverse_string() {
+    echo "$1" | rev
+}
+
+# Function to add two numbers
+add_numbers() {
+    echo "$(( $1 + $2 ))"
+}
+
+# Prompt user for input
+read -p "Enter value for uv1: " uv1
+read -p "Enter value for uv2: " uv2
+
+# Print variables in reverse order
+echo "uv1 in reverse order: $(reverse_string "$uv1")"
+echo "uv2 in reverse order: $(reverse_string "$uv2")"
+
+# Attempt to add the two variables
+# Convert inputs to integers for addition
+if [[ "$uv1" =~ ^-?[0-9]+$ && "$uv2" =~ ^-?[0-9]+$ ]]; then
+    # Both are integers
+    sum=$(add_numbers "$uv1" "$uv2")
+    echo "The sum of uv1 and uv2 is: $sum"
+else
+    echo "Cannot add uv1 and uv2. One or both of the inputs are not integers."
+fi
+
+# Additional checks for float inputs
+if [[ "$uv1" =~ ^-?[0-9]*\.[0-9]+$ || "$uv2" =~ ^-?[0-9]*\.[0-9]+$ ]]; then
+    # At least one is a float
+    sum=$(echo "$uv1 + $uv2" | bc 2>/dev/null)
+    if [ $? -eq 0 ]; then
+        echo "The sum of uv1 and uv2 is: $sum"
+    else
+        echo "Cannot add uv1 and uv2. One or both of the inputs are not valid numbers."
+    fi
+fi

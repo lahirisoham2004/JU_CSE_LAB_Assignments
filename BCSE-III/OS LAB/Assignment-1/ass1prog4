@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Function to convert date to day of the week
+get_day_of_week() {
+    date --date="$1" +"%A"
+}
+
+# Function to calculate the age difference
+calculate_age_difference() {
+    birthdate1=$(date --date="$1" +%Y%m%d)
+    birthdate2=$(date --date="$2" +%Y%m%d)
+
+    diff=$(( ( $(date --date="$birthdate1" +%s) - $(date --date="$birthdate2" +%s) ) / 86400 ))
+    
+    if [ $diff -lt 0 ]; then
+        diff=$(( -1 * diff ))
+    fi
+
+    years=$(( diff / 365 ))
+    months=$(( (diff % 365) / 30 ))
+    days=$(( (diff % 365) % 30 ))
+
+    echo "$years years, $months months, $days days"
+}
+
+# Check if exactly two arguments are provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 DD/MM/YYYY DD/MM/YYYY"
+    exit 1
+fi
+
+# Extract input dates
+birthday1=$1
+birthday2=$2
+
+# Get day of the week for each birthday
+day1=$(get_day_of_week "$birthday1")
+day2=$(get_day_of_week "$birthday2")
+
+# Check if the days of the week match
+if [ "$day1" == "$day2" ]; then
+    echo "The birthdays fall on the same day of the week: $day1"
+else
+    echo "The birthdays fall on different days of the week: $birthday1 -> $day1, $birthday2 -> $day2"
+fi
+
+# Calculate and display the age difference
+age_difference=$(calculate_age_difference "$birthday1" "$birthday2")
+echo "Age difference: $age_difference"
+
